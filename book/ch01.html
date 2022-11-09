@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2002/06/xhtml2/ http://www.w3.org/MarkUp/SCHEMA/xhtml2.xsd" xmlns:epub="http://www.idpf.org/2007/ops">
+<head>
+<link href="Styles/Style00.css" rel="stylesheet" type="text/css" />
+<link href="Styles/Style01.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">body{margin:1em;background-color:transparent!important;}#sbo-rt-content *{text-indent:0pt!important;}#sbo-rt-content .bq{margin-right:1em!important;}#sbo-rt-content *{word-wrap:break-word!important;word-break:break-word!important;}#sbo-rt-content table,#sbo-rt-content pre{overflow-x:unset!important;overflow:unset!important;overflow-y:unset!important;white-space:pre-wrap!important;}</style></head>
+<body><div id="sbo-rt-content"><section data-type="chapter" epub:type="chapter" class="pagenumrestart" data-pdf-bookmark="Chapter 1. Introduction"><div class="chapter" id="chapter_introduction">
+<h1><span class="label">Chapter 1. </span>Introduction</h1>
+
+
+<p>Let’s get started! This chapter discusses:</p>
+
+<ul>
+<li>
+<p>What I mean by process automation</p>
+</li>
+<li>
+<p>Specific technical challenges when automating processes</p>
+</li>
+<li>
+<p>What a workflow engine can do and why this provides a ton of value</p>
+</li>
+<li>
+<p>How business and IT can collaborate when automating processes</p>
+</li>
+<li>
+<p>How modern tools differ very much from BPM and SOA tooling from the past</p>
+</li>
+</ul>
+
+
+
+
+
+
+<section data-type="sect1" data-pdf-bookmark="Process Automation"><div class="sect1" id="sec_process_automation_intro">
+<h1>Process Automation</h1>
+
+<p><a data-type="indexterm" data-primary="business process management" data-see="BPM (business process management)" id="idm45976004850536"/><a data-type="indexterm" data-primary="Business Process Model and Notation" data-see="BPMN (Business Process Model and Notation)" id="idm45976004849416"/><a data-type="indexterm" data-primary="event-driven communication" data-see="choreography" id="idm45976004848488"/><a data-type="indexterm" data-primary="command-driven communication" data-see="orchestration" id="idm45976004847528"/><a data-type="indexterm" data-primary="business processes" data-see="processes" id="idm45976004846568"/><a data-type="indexterm" data-primary="workflows" data-see="processes" id="idm45976004845624"/><a data-type="indexterm" data-primary="architecture" data-see="solution architecture" id="idm45976004844680"/><a data-type="indexterm" data-primary="service-oriented architecture" data-see="SOA (service-oriented architecture)" id="idm45976004843736"/><a data-type="indexterm" data-primary="process automation" data-secondary="about" id="pa_ab"/>In essence, a <em>process</em> (or <em>workflow</em>) simply refers to a series of tasks that need to be performed to achieve a desired result.</p>
+
+<p>Processes are everywhere. As a developer, I think of my personal development process as being able to manage certain tasks that go from an issue to a code change that is then rolled out to production. As an employee, I think of optimizing my process around handling emails, which involves techniques for prioritizing them quickly and keeping my inbox empty. As a business owner, I think of end-to-end business processes like fulfilling customer orders, known as “order to cash.” And as a backend developer, I might also think of remote calls in my code, as these involve a series of tasks—especially if you consider retry or cleanup tasks, because a distributed system can fail at any time.</p>
+
+<p>Processes can be automated on different levels. The main distinction is if a human controls the process, if a computer controls the process, or if the process is fully automated. Here are some examples that highlight these different levels of automation.</p>
+
+<p>After high school, I helped organize meals-on-wheels deliveries to elderly people in their homes. There was a daily process going on to handle the meal orders, aggregate a list of orders that went to the kitchen, package the meals, and finally ensure that all the orders were labeled correctly so they would be delivered to the correct recipients. In addition to that, there was the delivery service itself. When I started, the process was completely paper-driven, and it took an entire morning to accomplish. I changed that, leveraging Microsoft Excel to automate some tasks. This brought the processing time down to about 30 minutes—so it was a lot more efficient. But there were still physical activities involved, like packing and labeling the food as well as driving to the recipients’ homes.</p>
+
+<p>More importantly, the process was still human-controlled, as it was my job to press the right buttons and show up in the kitchen at the appropriate times with the appropriate lists. Only some tasks were supported by software.</p>
+
+<p>During my last hospital visit I chatted to the staff about how the meal preparation worked. The patients were required to fill out a paper card to mark allergies and meal preferences, and this information was typed into a computer. Then the IT system was in charge of transporting that information to the right place at the right time, and it needed to be done in an automatic fashion. People still played a role in the process, but they did not steer it. This was a computer-controlled, but not fully automated process.</p>
+
+<p>If you take this example even further, today there are cooking robots available. If you were to add these robots to the process, it would be possible to task the computer with not only automating the control flow, but also the cooking tasks. This moves the process closer to a fully automated process.</p>
+
+<p>As you can see, there is an important distinction between the automation of the control flow between tasks, and the automation of the tasks themselves:</p>
+<dl>
+<dt>Automation of the control flow</dt>
+<dd>
+<p>The<a data-type="indexterm" data-primary="flow" data-secondary="control" id="idm45976004816632"/><a data-type="indexterm" data-primary="automation" data-seealso="process automation" id="idm45976004815624"/><a data-type="indexterm" data-primary="automation" data-secondary="of control flow" id="idm45976004814680"/><a data-type="indexterm" data-primary="control flow" id="idm45976004813736"/> interactions between tasks are automated, but the tasks themselves might not be. If humans do the work, the computer controls the process and involves them whenever necessary, for example using tasklist user interfaces. This is known as <em>human task management</em>. In the previous example, this was the humans cooking the food.  This is in contrast to a completely manual process that works because people control the task flow, by passing paper or emails around.</p>
+</dd>
+<dt>Automation of the tasks</dt>
+<dd>
+<p>The<a data-type="indexterm" data-primary="automation" data-secondary="of tasks" id="idm45976004810760"/><a data-type="indexterm" data-primary="tasks" data-secondary="automation of" id="idm45976004809752"/> tasks themselves are automated. In the previous example, this would be the robots cooking the food.</p>
+</dd>
+</dl>
+
+<p class="less_space pagebreak-before">If<a data-type="indexterm" data-primary="fully automated processes" id="idm45976004807640"/><a data-type="indexterm" data-primary="STP (straight-through processing)" id="idm45976004806888"/> you combine automation of both the control flow and the tasks you end up with <em>fully automated</em> processes, also known as <em>straight-through processing</em> (STP). These processes only require manual intervention if something happens beyond the expected normal operations.</p>
+
+<p><a data-type="indexterm" data-primary="automation" data-secondary="motivations for" id="idm45976004804840"/>While there is of course an overall tendency to automate processes as much as possible, there are specific reasons that motivate automation:</p>
+<dl>
+<dt><a data-type="indexterm" data-primary="repetitions, high, as a motivation for automation" id="idm45976004802648"/>High number of repetitions</dt>
+<dd>
+<p>The effort put into automation is worthwhile only if the potential savings exceed the cost of development. Processes with a high volume of executions are excellent candidates for automation.</p>
+</dd>
+<dt><a data-type="indexterm" data-primary="standardization, as a motivation for automation" id="idm45976004800424"/>Standardization</dt>
+<dd>
+<p>Processes need to be structured and repeatable to be easily automated. While some degree of variance and flexibility is possible with automated processes, it increases the effort required for automation and weakens some of the advantages.</p>
+</dd>
+<dt><a data-type="indexterm" data-primary="compliance conformance, as a motivation for automation" id="idm45976004798152"/>Compliance conformance</dt>
+<dd>
+<p>For some industries or specific processes there are strict rules around auditability, or even rules that mandate following a documented procedure in a repeatable and revisable manner. Automation can deliver this and provide high-quality, relevant data right away.</p>
+</dd>
+<dt><a data-type="indexterm" data-primary="quality need, as a motivation for automation" id="idm45976004795864"/>Need for quality</dt>
+<dd>
+<p>Some processes should produce results of consistent quality. For example, you might promise a certain delivery speed for customer orders. This is easier to achieve and retain with an automated process.</p>
+</dd>
+<dt><a data-type="indexterm" data-primary="information richness, as a motivation for automation" id="idm45976004793624"/>Information richness</dt>
+<dd>
+<p>Processes that carry a lot of digitized information are better suited to automation.</p>
+</dd>
+</dl>
+
+<p>Automating processes can be achieved by different means, as further examined in <a data-type="xref" href="ch05.xhtml#sec_workflow_alternatives">“Limitations of Other Implementation Options”</a>, but there is special software that is dedicated to process automation. As mentioned in the Preface, this book will focus on those tools, and especially look at workflow engines.</p>
+<div data-type="note" epub:type="note"><h6>Note</h6>
+<p>Automating processes does not necessarily mean doing software development or using some kind of workflow engine. It can be as simple as leveraging tools like Microsoft Office, Slack, or Zapier to automate tasks triggered by certain events. For example, every time I enter a new conference talk in my personal spreadsheet, it triggers a couple of automated tasks to publish it on my homepage, the company event table, our developer relations Slack channel, and so forth. This kind of automation is relatively easy to implement, even by non-IT folks in a self-service manner, but of course is limited in power.</p>
+
+<p>In the rest of this book I will <em>not</em> focus on these office-like workflow automation tools. Instead, we’ll explore process automation from a software development and architecture perspective.</p>
+</div>
+
+<p><a data-type="indexterm" data-primary="" data-startref="pa_ab" id="idm45976004787384"/>To help you understand how to automate processes with a workflow engine, let’s quickly jump into a story that illustrates the kinds of real-life developer problems it can solve.</p>
+</div></section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-type="sect1" data-pdf-bookmark="Wild West Integrations"><div class="sect1" id="sec_wild_west">
+<h1>Wild West Integrations</h1>
+
+<p><a data-type="indexterm" data-primary="examples" id="ex_ab"/><a data-type="indexterm" data-primary="process automation" data-secondary="examples of" id="pa_ex"/><a data-type="indexterm" data-primary="Wild West integrations" id="ww_int"/>Imagine Ash is a backend developer who gets tasked with building a small backend system for collecting payments via credit card. This doesn’t sound too complex, right? Ash starts right away and designs a beautiful architecture. In conversations with the folks doing order fulfillment, they agree that providing a REST API for the order fulfillment service is the easiest option to move forward. So Ash goes ahead and starts coding it.</p>
+
+<p>Halfway through, a colleague walks in and looks at Ash’s whiteboard, where the beauty of the architecture is captured. The colleague casually says, “Ah, you’re using that external credit card service. I used to work with it, too. We had a lot of issues with leaky connections and outages back then; did that improve?”</p>
+
+<p>This question takes Ash by surprise. This expensive SaaS service is flaky? That means Ash’s nice, straightforward code is too naive! But no worries, Ash adds some code to retry the call when the service is not available. After chatting a bit more, the colleague reveals that their service suffered from outages that sometimes lasted hours. Puh—so Ash needs to think of a way of retrying over a longer period of time. But darn it, this involves state handling and using a scheduler! So Ash decides to not tackle this right away but just add an issue to the backlog in the hopes that the order fulfillment team can sort it out. For now, Ash’s code simply throws an exception when the credit card service is unavailable, with fingers crossed that all will work out well.</p>
+
+<p>Two weeks into production, a different colleague from order fulfillment walks over, alongside the CEO. What the heck? It turns out Ash’s system raises a lot of “credit card service unavailable” errors, and the CEO is not happy about the amount of orders not being fulfilled—this issue has resulted in lost revenue. Ash tries to act immediately and asks the order fulfillment team to attempt retrying the payments, but they have to iron out other urgent problems and are reluctant to take over responsibilities that should be handled by Ash’s service (and they are totally right to be reluctant, as you’ll read about in <a data-type="xref" href="ch07.xhtml#cha_boundaries">Chapter 7</a>).</p>
+
+<p>Ash promises to fix the situation and get something live ASAP. Back at their desk, Ash creates a database table called <code>payment</code> with a column called <code>status</code>. Every payment request gets inserted there, with a status of <code>open</code>. On top of that Ash adds a simple scheduler that checks for open payments every couple of seconds and processes them. Now the service can do stateful retries over longer periods of time. This is great. Ash calls the order fulfillment folks and they discuss the changes needed in the API, as payments are now processed asynchronously. The original REST API will hand back HTTP 202 (Accepted) responses, and Ash’s service can either call back the fulfillment service, send them some message, or let them periodically poll for the payment status. The teams agree on the polling approach as a quick fix, so Ash just needs to provide another REST endpoint to allow querying the payment status.</p>
+
+<p>The change gets rolled out to production and Ash is happy to have dealt with the CEO’s concerns. But unfortunately, the peace doesn’t last too long. A caravan of people arrive in Ash’s office, including the director of operations. They tell Ash that no orders can be shipped because no payments are successfully being taken. What? Ash makes a mental note to add some monitoring to avoid being surprised by these situations in the future, and takes a look at the database. Oh no, there are a huge amount of open payments piling up. Digging a bit into the logs Ash discovers that the scheduler was interrupted by an exceptional case and crashed. Dang it.</p>
+
+<p>Ash puts the one poisoned payment that interrupted the whole process aside, restarts the scheduler, and sees that payments are being processed again. Relieved, Ash vows to keep a closer eye on things and hacks together a small script to periodically look at the table and send an email alert whenever something unusual happens. Ash also decides to add some mitigation strategies for the exceptional case to that script. Great!</p>
+
+<p><a data-type="indexterm" data-primary="service level agreement (SLA)" id="idm45976005089512"/><a data-type="indexterm" data-primary="SLA (service level agreement)" id="idm45976005088792"/>After all these stressful weeks, Ash plans to go on vacation. But it turns out that the boss isn’t too happy about Ash leaving because nobody except Ash actually understands the tool stack that they just built. Even worse, the boss instead pulls out a list of additional requirements for the payment service, as some business folks have heard about the flaky credit card service and want more in-depth reports about availability and response times. They also want to know if the agreed-on service level agreement (SLA) is actually being met and want to monitor that in real time. Gosh—now Ash has to add report generation on top of a database that hadn’t seemed necessary in the first place. <a data-type="xref" href="#img_introduction_wild_west">Figure 1-1</a> shows the resulting mess in its full beauty.</p>
+
+<figure><div id="img_introduction_wild_west" class="figure">
+<img src="Images/ppau_0101.png" alt="ppau 0101" width="1132" height="671"/>
+<h6><span class="label">Figure 1-1. </span>Wild West integration at play—the usual chaos you actually find at most enterprises</h6>
+</div></figure>
+
+<p>Unfortunately, Ash just used a far-too-common approach to automate processes that I call <em>Wild West integration</em>. It’s an ad hoc approach to creating systems without any kind of governance. It is very likely that such a system doesn’t serve the business as a whole well.</p>
+
+<p>Here are some more flavors of Wild West integration:</p>
+<dl>
+<dt><a data-type="indexterm" data-primary="integration" data-secondary="via database, Wild West integration and" id="idm45976005082120"/>Integration via database</dt>
+<dd>
+<p>A service accesses some other service’s database directly in order to communicate, often without the other service knowing it.</p>
+</dd>
+<dt><a data-type="indexterm" data-primary="naive point-to-point integrations, Wild West integration and" id="idm45976005079784"/>Naive point-to-point integrations</dt>
+<dd>
+<p>Two components communicate directly with each other, often via REST, SOAP, or messaging protocols, without properly clarifying all aspects around remote communication.</p>
+</dd>
+<dt><a data-type="indexterm" data-primary="database triggers, Wild West integration and" id="idm45976005077640"/>Database triggers</dt>
+<dd>
+<p>Additional logic is invoked whenever you write something to the database.</p>
+</dd>
+<dt><a data-type="indexterm" data-primary="toolchain" id="idm45976005075560"/><a data-type="indexterm" data-primary="brittle toolchains, Wild West integration and" id="idm45976005074856"/>Brittle toolchains</dt>
+<dd>
+<p>For example, moving comma-separated (CSV) text files via FTP.</p>
+</dd>
+</dl>
+
+<p>Ash needed to write a lot of code for features that are built-in capabilities of a workflow engine: keeping the current state, scheduling retries, reporting on the current state, and operating long-running processes. Instead of writing your own code, you should leverage existing tools. There’s really nothing to gain by rolling your own solution. Even if you think that your project doesn’t need the additional complexity of a workflow engine, you should always give it a second thought.</p>
+<div data-type="tip"><h6>Tip</h6>
+<p>Coding processes without a workflow engine typically results in complex code; state handling ends up being coded into the components themselves. This makes it harder to understand the business logic and business process implemented in that code.</p>
+</div>
+
+<p><a data-type="indexterm" data-primary="" data-startref="ex_ab" id="idm45976005070376"/><a data-type="indexterm" data-primary="" data-startref="pa_ex" id="idm45976005069400"/><a data-type="indexterm" data-primary="" data-startref="ww_int" id="idm45976005068456"/>Ash’s story could also easily lead to the development of a homegrown workflow engine. Such company-specific solutions cause a lot of development and maintanence effort and will still lack behind what existing tools can deliver.</p>
+</div></section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-type="sect1" data-pdf-bookmark="Workflow Engines and Executable Process Models"><div class="sect1" id="sec_workflow_engine_first_intro">
+<h1>Workflow Engines and Executable Process Models</h1>
+
+<p><a data-type="indexterm" data-primary="executable process models" id="epm_ab"/><a data-type="indexterm" data-primary="models" data-secondary="executable process" id="mo_ep"/><a data-type="indexterm" data-primary="process automation" data-secondary="executable process models" id="pa_epm"/><a data-type="indexterm" data-primary="process automation" data-secondary="workflow engines" id="pa_we"/><a data-type="indexterm" data-primary="workflow engines" data-secondary="about" id="we_ab"/>So what is the alternative to hardcoded workflow logic or a homegrown workflow engine? You can use an existing tool, such as one of the products contained in the curated list on  <a href="https://ProcessAutomationBook.com">this book’s website</a>.</p>
+
+<p><a data-type="indexterm" data-primary="process definitions" id="idm45976005058136"/><a data-type="indexterm" data-primary="process instances" id="idm45976005057432"/>A workflow engine automates the control of a process. It allows you to define and deploy a blueprint of your process, the <em>process definition</em>, expressed in a certain modeling language. With that process definition deployed you can start <em>process instances</em>, and the workflow engine keeps track of their state.</p>
+
+<p><a data-type="indexterm" data-primary="start events" id="idm45976001332280"/><a data-type="indexterm" data-primary="service task" id="idm45976001331352"/><a data-type="indexterm" data-primary="tasks" data-secondary="service" id="idm45976001330680"/><a data-type="indexterm" data-primary="end events" id="idm45976001329736"/><a data-type="xref" href="#img_introduction_payment_process">Figure 1-2</a> shows a process for the payment example introduced earlier. The process starts when a payment is required, as indicated by the first circle in the process model (the so-called <em>start event</em>, marking the beginning of a process). It then goes through the one and only task, called a <em>service task</em>, indicated by the cog wheels. This service task will implement the REST call to the external credit card service. You will learn how this can be done in <a data-type="xref" href="ch02.xhtml#cha_automating_with_workflow_engine">Chapter 2</a>. For now, simply imagine that you write some normal programming code to do this, which I call <em>glue code</em>. After that task, the process ends in the <em>end event</em>, the circle with the thick border.</p>
+
+<figure><div id="img_introduction_payment_process" class="figure">
+<img src="Images/ppau_0102.png" alt="ppau 0102" width="927" height="312"/>
+<h6><span class="label">Figure 1-2. </span>A very simple process, which can already handle many requirements in the credit card example</h6>
+</div></figure>
+
+<p><a data-type="indexterm" data-primary="REST endpoint" id="idm45976001322984"/><a data-type="xref" href="#img_introduction_workflow_engine_payment">Figure 1-3</a> visualizes with some pseudocode how you can use this process model to implement payments. First, you will write some code that reacts to something in the outside world—for example, a call to the REST endpoint to collect payments. This code will then use the workflow engine API to start a new process instance. This process instance is persisted by the workflow engine; <a data-type="xref" href="#img_introduction_workflow_engine_payment">Figure 1-3</a> visualizes this via a relational database. You’ll read about different engine architectures, persistence options, and deployment scenarios later in this book.</p>
+
+<figure><div id="img_introduction_workflow_engine_payment" class="figure">
+<img src="Images/ppau_0103.png" alt="ppau 0103" width="1411" height="1031"/>
+<h6><span class="label">Figure 1-3. </span>Workflow engine</h6>
+</div></figure>
+
+<p>Next, you will write some glue code to charge the credit card. This code acts like a callback and will be executed when the process instance advances to the task to charge the credit card, which will happen automatically after the process instance is started. Ideally, the credit card payment is processed right away and the process instance ends afterward. Your REST endpoint might even be able to return a synchronous response to its client. But in case of an outage of the credit card service, the workflow engine can safely wait in the task to charge the credit card and trigger retries.</p>
+
+<p>We just touched on the two most important capabilities of a workflow engine:</p>
+
+<ul>
+<li>
+<p>Persist the state, which allows waiting.</p>
+</li>
+<li>
+<p>Schedule things, like the retries.</p>
+</li>
+</ul>
+
+<p>Depending on the tooling, the glue code might need to be written in a specific programming language. But some products allow arbitrary programming languages, so if you decide to clean up your Wild West implementation you’ll probably be able to reuse big parts of your code and just leverage the workflow engine for state handling and scheduling.</p>
+
+<p>Of course, many processes go far beyond that simple example. When retrieving payments, the process model might solve more business problems. For example, the process could react to expired credit cards and wait for the customer to update their payment information, as visualized in <a data-type="xref" href="#img_introduction_payment_process_extended">Figure 1-4</a>.</p>
+
+<figure><div id="img_introduction_payment_process_extended" class="figure">
+<img src="Images/ppau_0104.png" alt="ppau 0104" width="1830" height="957"/>
+<h6><span class="label">Figure 1-4. </span>The payment process can quickly become more elaborate</h6>
+</div></figure>
+
+<p><a data-type="indexterm" data-primary="" data-startref="epm_ab" id="idm45976001309464"/><a data-type="indexterm" data-primary="" data-startref="mo_ep" id="idm45976001308488"/><a data-type="indexterm" data-primary="" data-startref="pa_epm" id="idm45976001307544"/><a data-type="indexterm" data-primary="" data-startref="pa_we" id="idm45976001306600"/><a data-type="indexterm" data-primary="" data-startref="we_ab" id="idm45976001305656"/>So far, the payment process is more of an integration process, which is not the most typical use for process automation. I like starting with it as it helps technical audiences to understand core workflow engine capabilities, but we’ll examine a more typical business process in the next section.</p>
+</div></section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-type="sect1" data-pdf-bookmark="A Business Scenario"><div class="sect1" id="sec_business_scenario">
+<h1>A Business Scenario</h1>
+
+<p><a data-type="indexterm" data-primary="process automation" data-secondary="business scenario" id="idm45976001302584"/>Let’s look at a typical (but imaginary) project. ShipByButton Inc. (SBB) is a tech startup. It provides a small hardware button. Whenever it is pressed, one specific item is ordered. For example, you could put this button next to your washing powder, and when you see that the powder is almost empty, you just press the button, and one box of washing powder will then be ordered and shipped to you (if this reminds you of the Amazon Dash button, this might be simply coincidence ;-)).</p>
+
+<p><a data-type="indexterm" data-primary="BPMN (Business Process Model and Notation)" data-secondary="universality of" id="idm45976001300728"/>SBB wants to automate its core business process, which is order fulfillment. An elaborate discussion of the different roles and their collaboration is provided in <a data-type="xref" href="ch10.xhtml#sec_intro_project">“A Typical Project”</a>. For now, let’s just say SBB starts with drawing out the process relating to the physical steps involved, and work their way down to the level of detail that can be automated using a workflow engine. They benefit from the fact that the process modeling language, BPMN, is universal regardless of the level at which you apply it.</p>
+
+<p>The resulting process model is shown in <a data-type="xref" href="#img_introduction_order_process">Figure 1-5</a>.</p>
+
+<figure><div id="img_introduction_order_process" class="figure">
+<img src="Images/ppau_0105.png" alt="ppau 0105" width="1932" height="312"/>
+<h6><span class="label">Figure 1-5. </span>End-to-end business process that is subject to automation</h6>
+</div></figure>
+
+<p>This is of course a bit simplified, as in real life you have more exceptional cases; e.g., if payment cannot be retrieved or goods are out of stock.</p>
+
+<p>You can see that this process relies on other services, for example the first task invoking the payment service. This is a typical scenario when applying microservices, as you will learn later in this book.</p>
+<div data-type="note" epub:type="note"><h6>Note</h6>
+<p><a data-type="indexterm" data-primary="business people" id="idm45976001292904"/>Modeling business processes often leads to an interesting by-product: unexpected insights. In a customer scenario close to SBB’s, we found that the “business people” did not actually know exactly what the “on the warehouse floor people” were doing. The visual process model not only helped to identify but also to resolve this problem.</p>
+</div>
+</div></section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-type="sect1" data-pdf-bookmark="Long-Running Processes"><div class="sect1" id="idm45976001291448">
+<h1>Long-Running Processes</h1>
+
+<p><a data-type="indexterm" data-primary="process automation" data-secondary="long-running processes" id="idm45976001290040"/><a data-type="indexterm" data-primary="processes" data-secondary="long-running" id="idm45976001289064"/><a data-type="indexterm" data-primary="long-running processes" id="idm45976001288120"/>Process automation has a broad scope. While it is often about enterprise, end-to-end business processes like order fulfillment, account opening, or claim settlement, it can also help with much more technical use cases around orchestration and integration, as noted in the credit card example.</p>
+
+<p>All these examples share one commonality, though: they involve <em>long-running processes</em>. That means processes that take minutes, hours, weeks, or months to complete. Handling long-running processes is what workflow engines excel at.</p>
+
+<p>These processes involve waiting for something to happen; for example, for other components to respond, or simply for humans to do some work. This is why workflow engines need to handle durable state, as mentioned earlier.</p>
+
+<p><a data-type="indexterm" data-primary="boundaries" data-secondary="crossing" id="idm45976001285112"/><a data-type="indexterm" data-primary="crossing boundaries" id="idm45976001284136"/>Another way to look at it is that long-running behavior is required whenever logic <em>crosses boundaries</em>. When I say boundaries, this can mean very different things. If you call a remote service, you cross the boundary of your local program, your local OS, and your local machine. This leaves you responsible for dealing with problems around the availability of the service or added latency. If you invoke another component or resource, you also cross the technical transaction boundary. If you integrate components from other teams you cross organizational boundaries, which means you need to collaborate with these people more. If you involve external services, like from a credit card agency, you cross the boundary of your own company. And if you involve people, this crosses the boundary between automatable and not-automatable tasks.</p>
+
+<p><a data-type="indexterm" data-primary="sequence of tasks" id="idm45976001281912"/>Managing these boundaries not only requires long-running capabilities, but also requires you to think carefully about the <em>sequence of tasks</em>. Failure scenarios and the proper business strategy to handle them need serious discussion. And you might face regulatory requirements around data security, compliance, or auditing. These requirements further motivate graphical process visualizations, which will be covered in depth in <a data-type="xref" href="ch11.xhtml#cha_visibility">Chapter 11</a>; these allow technical folks to consult with the right non-technical people to solve any challenges.</p>
+
+<p>Modern systems have more and more boundaries, as there is a growing tendency to move away from monolithic systems toward fine-grained components, like services, microservices, or functions. And systems are often assembled out of a wild mix of internal applications and services consumed in the cloud.</p>
+</div></section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-type="sect1" data-pdf-bookmark="Business Processes, Integration Processes, and Workflows"><div class="sect1" id="idm45976001278472">
+<h1>Business Processes, Integration Processes, and Workflows</h1>
+
+<p><a data-type="indexterm" data-primary="integration" data-secondary="processes for" id="idm45976001277224"/><a data-type="indexterm" data-primary="processes" data-secondary="about" id="idm45976001275944"/><a data-type="indexterm" data-primary="processes" data-secondary="business" id="idm45976001275000"/><a data-type="indexterm" data-primary="processes" data-secondary="integration" id="idm45976001274056"/><a data-type="indexterm" data-primary="process automation" data-secondary="business processes" id="idm45976001273112"/><a data-type="indexterm" data-primary="process automation" data-secondary="integration processes" id="idm45976001272168"/><a data-type="indexterm" data-primary="process automation" data-secondary="workflows" id="idm45976001271224"/>To summarize, you can automate business processes as well as integration processes. The boundary between these categories is often not sharp at all, as most integration use cases have a business motivation. This is why you don’t find “integration processes” discussed as a separate category in this book. Instead, <a data-type="xref" href="ch03.xhtml#sec_workflow_vs_code">“Model or Code?”</a> will show you that many technical details end up in normal programming code, not in a process model, and <a data-type="xref" href="ch10.xhtml#granularity_subprocess">“Extracting (Integration) Logic into Subprocesses”</a> will explain that you can extract some portions of the process model into child models. This allows you to push technical details into another level of granularity, which helps to keep the business process understandable.</p>
+
+<p><a data-type="indexterm" data-primary="executed on a workflow engine" id="idm45976001267720"/>Furthermore, you’ll have noticed that I use the terms <em>process</em> and <em>workflow</em>. Truth be told, there is no common, agreed-on understanding of the difference between process automation and workflow automation. Many people use these terms interchangeably. Others don’t, and argue that business processes are more strategic and workflows are more tactical artifacts; thus, only workflows can be modeled and executed on a workflow engine. Similarly, process models can also be called workflow models; some standards use one term, and others the other. Neither is right or wrong.</p>
+
+<p>I often recommend adjusting the terminology to whatever works well in your environment. However, for this book I had to make a choice, and I simply went with what I feel most comfortable with. As a rule of thumb:</p>
+
+<ul>
+<li>
+<p>Business process automation is <em>what</em> you want to achieve. It is the goal. It is what business people care about. I will use the term <em>process</em> (or <em>business process</em>) in most cases.</p>
+</li>
+<li>
+<p>I use the term <em>workflow</em> whenever I talk about the tooling, which is about <em>how</em> processes are really automated. So, for example, I will talk about a workflow engine, even if this will automate process models.</p>
+</li>
+</ul>
+
+<p>In real life, I sometimes adjust these rules. For instance, when talking to technical folks about the implementation, I might prefer the terms <em>workflow</em>, <em>workflow engine</em>, or sometimes even <em>orchestration engine</em> or <em>Saga</em>, depending on the context (you will understand the latter terms when you’ve progressed further in this book).</p>
+</div></section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-type="sect1" data-pdf-bookmark="Business–IT Collaboration"><div class="sect1" id="idm45976001257400">
+<h1>Business–IT Collaboration</h1>
+
+<p><a data-type="indexterm" data-primary="process automation" data-secondary="business-IT collaboration" id="idm45976001255992"/>The collaboration of business stakeholders and IT professionals is crucial for the success of modern enterprises. Business stakeholders understand the organization, the market, the product, the strategy, and the business case for each project. They can channel all of that into requirements, features, and priorities. IT, on the other hand, understands the existing IT landscape and organization—constraints and opportunities as well as effort and availability. Only by collaborating can both “sides” win.</p>
+
+<p>Unfortunately, different roles often speak different languages. Not literally—both might communicate in English—but in the way they phrase and understand things.</p>
+
+<p>Putting the business process at the center of this communication helps. It makes it much easier to understand requirements in the context of a bigger picture and avoids the misunderstandings that can happen when you discuss features in isolation.</p>
+
+<p>Visual process models facilitate this conversation, especially if they can be understood by business and IT. All the efficient requirement workshops I’ve seen were filled with people from business <em>and</em> IT.</p>
+
+<p>A common example is that business folks underestimate the complexity of requirements, but at the same time miss easy picks. A typical dialogue goes like this:</p>
+<blockquote>
+<p><em>Business:</em> “Why is implementing this small button so much effort?”</p>
+<p><em>IT:</em> “Because we need to untie a gigantic knot in the legacy software to make it possible! Why can’t we just make a change over here and reach the same result?”</p>
+<p><em>Business:</em> “What, wait, we can change that over there? We thought that was impossible.”</p>
+</blockquote>
+
+<p>With the right mindset and a good collaboration culture, you will not only progress faster, but also end up with better solutions and happier people. Process automation and especially visual process models will help. <a data-type="xref" href="ch10.xhtml#cha_design">Chapter 10</a> will explain this in much more detail.</p>
+</div></section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-type="sect1" data-pdf-bookmark="Business Drivers and the Value of Process Automation"><div class="sect1" id="sec_business_value">
+<h1>Business Drivers and the Value of Process Automation</h1>
+
+<p><a data-type="indexterm" data-primary="business drivers" id="bd_ab"/><a data-type="indexterm" data-primary="process automation" data-secondary="business drivers" id="pa_bd"/><a data-type="indexterm" data-primary="process automation" data-secondary="value of" id="pa_v"/><a data-type="indexterm" data-primary="value(s)" id="va_ab"/>Organizations apply process automation to:</p>
+
+<ul>
+<li>
+<p>Build better customer experiences.</p>
+</li>
+<li>
+<p>Get to market faster (with changed or completely new processes, products, or business models).</p>
+</li>
+<li>
+<p>Increase business agility.</p>
+</li>
+<li>
+<p>Drive operational cost savings.</p>
+</li>
+</ul>
+
+<p>This can be achieved by the promises that come with the prospect of process automation: increasing visibility, efficiency, cost-effectiveness, quality, confidence, business agility, and scale. Let’s look at some of these briefly.</p>
+
+<p>Business processes provide direct visibility to business stakeholders. For example, a business person cares about the sequence of tasks, such as ensuring that payment is collected before shipping, or knowing what the strategy is for handling failed payments. This information is needed to truly understand how the business currently runs and performs. The data that process automation platforms provides leads to actionable insights, which is the basis for process optimizations.</p>
+
+<p>Enterprises care about the efficiency and cost-effectiveness of their automated processes, as well as quality and confidence. An online retailer might want to reduce the cycle time of their order fulfillment process, meaning that a customer will receive a parcel as fast as possible after hitting the order button. And of course, retailers also don’t want any orders to fall through the cracks in the system, leaving them not only with a missed sale, but also an unhappy customer.</p>
+
+<p>Some business models even rely on the possibility of fully automating processes; it is crucial for companies to make money, or deliver responses as fast as expected, or scale their business.</p>
+
+<p>Business agility is another important driver. The pace of IT is too fast to really anticipate any trend properly, so it is important for companies to build systems that can react to changes. As the CIO of an insurance company recently said to me, “We don’t know what we will need tomorrow. But we do know that we will need something. So we have to be able to move quickly!” Concentrating on building systems and architectures in a way that makes it easy to adopt changes is crucial to the survival of many businesses. Process automation is one important piece, as it makes it easier to 
+<span class="keep-together">understand</span> how processes are currently implemented, to dive into discussions around changes, and to implement them.</p>
+</div></section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-type="sect1" data-pdf-bookmark="Not Your Parents’ Process Automation Tools"><div class="sect1" id="sec_parents_workflow">
+<h1>Not Your Parents’ Process Automation Tools</h1>
+
+<p><a data-type="indexterm" data-primary="process automation" data-secondary="tools for" id="pa_to"/><a data-type="indexterm" data-primary="tools" data-secondary="for process automation" id="to_pa"/>If process automation and workflow engines are such a great solution for certain problems, why doesn’t everybody apply them? Of course, some people simply don’t know about them. But more often, people have either had bad experiences with bad tools in the past, or they only have a vague association with terms like <em>workflow</em> or <em>process automation</em> and think they relate to old-school document flows or proprietary tool suites, which they don’t see as helpful. Spoiler alert: this is wrong!</p>
+
+<p>In order to overcome these misconceptions it’s good to be aware of history and past failures. This will allow you to free your mind to adopt a modern way of thinking about process automation.</p>
+
+
+
+
+
+
+
+
+<section data-type="sect2" data-pdf-bookmark="A Brief History of Process Automation"><div class="sect2" id="idm45976004647608">
+<h2>A Brief History of Process Automation</h2>
+
+<p><a data-type="indexterm" data-primary="history, of process automation" id="hpa_ab"/><a data-type="indexterm" data-primary="process automation" data-secondary="history of" id="pa_hi"/>The roots of dedicated process automation technology date back to around 1990, when paper-based processes began to be guided by document management systems. In these systems, a physical or digital document was the “token” (a concept we’ll discuss more in <a data-type="xref" href="ch03.xhtml#cha_process_solutions">Chapter 3</a>), and workflows were defined around that document. So, for example, the application form to open a bank account was scanned and moved automatically to the people who needed to work on it.</p>
+
+<p>You can still spot these document-based systems in real life. I recently saw a tool being used with a lot of phantom PDF documents being created just to be able to kick off workflow instances that are not based on a real physical document.</p>
+
+<p>This category of systems developed further into human workflow management tools that were centered around human task management. They reached their zenith around 2000. With these, you did not need documents to start a workflow. Still, these systems were built to coordinate humans, not to integrate software.</p>
+
+<p><a data-type="indexterm" data-primary="EAI (enterprise application integration) tools" id="idm45976004640712"/><a data-type="indexterm" data-primary="enterprise application integration (EAI) tools" id="idm45976004639976"/><a data-type="indexterm" data-primary="SOA (service-oriented architecture)" data-secondary="about" id="idm45976004639272"/>Then, also around the year 2000, <em>service-oriented architecture</em> (SOA) emerged as an alternative to large monolithic ecosystems where traditional enterprise application integration (EAI) tools did point-to-point integrations. The idea was to break up functionality into services that are offered in a more or less standardized way to the enterprise, so that others can easily consume them. One fundamental idea of SOA was to reuse these services and thus reduce development efforts. Hybrid tools emerged: tools that were rooted in SOA but added human task capabilities, and human workflow products that added integration capabilities.</p>
+
+<p><a data-type="indexterm" data-primary="BPM (business process management)" data-secondary="about" id="idm45976004636904"/>Around the same time, <em>business process management</em> (BPM) was gaining traction as a discipline, taking not only these technical and tooling aspects into account, but also the lessons around setting up scalable organizations and business process reengineering (BPR).</p>
+
+<p>These developments are summarized in <a data-type="xref" href="#img_historical_streams">Figure 1-6</a>.</p>
+
+<figure><div id="img_historical_streams" class="figure">
+<img src="Images/ppau_0106.png" alt="ppau 0106" width="1132" height="603"/>
+<h6><span class="label">Figure 1-6. </span>Historical development of disciplines</h6>
+</div></figure>
+
+<p>Process automation was a hyped topic in the BPM and SOA era. Unfortunately, there were some major flaws that led to many disappointments, for the following reasons: BPM was too detached from developers, and the tools were too vendor-driven, too centralized, and too focused on low code. Let me explain.</p>
+
+
+
+
+
+
+
+
+
+
+<section data-type="sect3" data-pdf-bookmark="BPM in the ivory tower"><div class="sect3" id="idm45976004630952">
+<h3>BPM in the ivory tower</h3>
+
+<p><a data-type="indexterm" data-primary="BPM (business process management)" data-secondary="as a discipline" id="idm45976004629752"/>BPM as a discipline includes methods to discover, model, analyze, measure, improve, optimize, and automate business processes. In that sense, it is a very broad topic. Unfortunately, many BPM initiatives were too detached from IT. For a long time, the folks doing BPM worked in silos, not considering how processes were really automated within the given IT infrastructure. This led to process models that could not function in real life, and yet these models were given to the IT departments to “simply” implement. Unsurprisingly, this did not work very well.</p>
+</div></section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-type="sect3" data-pdf-bookmark="Centralized SOA and the ESB"><div class="sect3" id="sec_centralized_soa">
+<h3>Centralized SOA and the ESB</h3>
+
+<p><a data-type="indexterm" data-primary="enterprise service bus (ESB)" id="idm45976004626104"/><a data-type="indexterm" data-primary="ESB (enterprise service bus)" id="idm45976004625336"/><a data-type="indexterm" data-primary="SOAP (Simple Object Access Protocol)" id="idm45976004624648"/><a data-type="indexterm" data-primary="Simple Object Access Protocol (SOAP)" id="idm45976004623960"/><a data-type="indexterm" data-primary="SOA (service-oriented architecture)" data-secondary="centralized" id="idm45976004623272"/>In an instance of unfortunate timing, SOA collided with the high times of very complex technologies like the Simple Object Access Protocol (SOAP), which made it difficult for any development team to offer or consume any other service. This opened up the space for tool vendors. Since SOA initiatives were typically very centrally 
+<span class="keep-together">organized</span> and governed, it brought the big vendors into the game, and they sold very expensive middleware that was placed at the heart of many companies in a top-down approach. The tooling was called an <em>enterprise service bus</em> (ESB); it was a messaging system at its core, with multiple tools around it to connect services or transform data.</p>
+
+<p>Looking back at SOA from today’s perspective, it is easy to highlight some of the shortcomings:</p>
+<dl>
+<dt>Centralized</dt>
+<dd>
+<p>SOA and ESB tools were typically installed as centralized systems and were operated by their own teams. This very much led to situations where you not only had to implement and deploy your own service, but also interact with the SOA team to deploy additional configuration into these tools, which caused a lot of friction.</p>
+</dd>
+<dt>Alien to the development process</dt>
+<dd>
+<p>Tools broke the development workflow, making automated testing or continuous integration/continuous delivery (CI/CD) pipelines impossible. Many of the tools did not even allow for automated testing or deployment.</p>
+</dd>
+<dt>Vendor-driven</dt>
+<dd>
+<p>The vendors overtook the industry and sold products before best practices existed, which forced practices into many companies that simply did not work.</p>
+</dd>
+<dt>Mixed infrastructure and business logic</dt>
+<dd>
+<p>Important business logic often ended up in routing procedures that were deployed on the middleware, leaving it without clear ownership or responsibility. Different teams implemented various aspects of logic that better belonged in one place.</p>
+</dd>
+</dl>
+
+<p>But how does this relate to process automation? Great question! SOA typically came in tandem with BPM suites.</p>
+</div></section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-type="sect3" data-pdf-bookmark="Misguided BPM suites"><div class="sect3" id="sec_low_code_myth">
+<h3>Misguided BPM suites</h3>
+
+<p><a data-type="indexterm" data-primary="BPM (business process management)" data-secondary="misguided suites" id="idm45976004611160"/>BPM suites were standalone tools that included a workflow engine at their core, with tools around it. Like ESBs, these suites were vendor-driven. They were deployed as centralized tools that were introduced from the top down. In these environments a central team took care of the platform, and this team often was the only group capable of deployment. This dependence on single teams led to a lot of problems.</p>
+
+<p>It’s worth mentioning that BPM suites emerged during a time when most companies were still running software on physical hardware—automated deployment pipelines weren’t really a thing then.</p>
+</div></section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-type="sect3" data-pdf-bookmark="The limitations of low code"><div class="sect3" id="sec_low_code">
+<h3>The limitations of low code</h3>
+
+<p><a data-type="indexterm" data-primary="non-technical people" id="idm45976004606920"/><a data-type="indexterm" data-primary="zero code" id="idm45976004606216"/><a data-type="indexterm" data-primary="low code" id="idm45976004605544"/><a data-type="indexterm" data-primary="code" data-secondary="limitations of low" id="idm45976004604872"/>BPM suites came with the promise of <em>zero code</em>, which was later rebranded as <em>low code</em>. The idea is as simple as it is appealing to business stakeholders: develop processes without IT being involved so a non-technical person can create an executable process model without writing programming code.</p>
+
+<p><a data-type="indexterm" data-primary="non-developers" id="idm45976004602392"/>Low-code approaches involve heavyweight tools that allow these non-developers to build processes by dragging and dropping prebuilt elements. Sophisticated wizards enable users to configure them, so it’s possible to build solutions without writing any source code.</p>
+
+<p><a data-type="indexterm" data-primary="Gartner" id="idm45976004601016"/><a data-type="indexterm" data-primary="citizen developers" id="idm45976004600312"/><a data-type="indexterm" data-primary="developers" data-secondary="citizen" id="idm45976004599640"/>This approach is still sold as desirable by advisory firms and BPM vendors, and the low-code approach indeed has its upsides. There is a shortage of developers at the moment, so many companies simply don’t have the resources to do proper software projects as they would like to. Less tech-savvy people (referred to as <em>citizen developers</em> by <a href="https://oreil.ly/ZNfej">Gartner</a>) begin working on software projects and need these low-code approaches.</p>
+
+<p>But while a low-code approach might work for relatively simple processes, it definitely falls short when dealing with complex business processes or integration scenarios. What I have regularly found is that low-code products do not deliver on their promise, and less-tech-savvy citizen developers cannot implement core processes themselves. As a result, companies have to revert back to their IT departments and ask them to assign professional software developers to finish the job. Those software developers then need to learn a proprietary, vendor-specific way of application development. Developing this skill takes a long time, and it’s often a frustrating experience. As a result, there is a lack of sufficiently skilled software developers within the organization, which forces companies to look for outside resources.</p>
+
+<p>Those outside resources are system integrators that partner with the BPM vendor and provide consultants certified by that vendor. Those consultants tend to be either not as skilled as promised, too expensive, or simply not available, often all at the same time.</p>
+
+<p>Furthermore:</p>
+
+<ul>
+<li>
+<p>You can’t use industry best practices to develop software solutions, like automated testing or frameworks that you might need for integration or user interfaces. You can only do what the vendor has foreseen, as it is hard or even impossible to break out of the preconceived path.</p>
+</li>
+<li>
+<p>You are often blocked from open source or community-driven knowledge and tool enhancements. For example, instead of being able to pick up a code example from GitHub, you instead have to watch a video tutorial on how to use the proprietary wizard to guide you through the low-code interface.</p>
+</li>
+<li>
+<p>The tools are typically very heavyweight and do not easily run on modern virtualized or cloud native architectures.</p>
+</li>
+</ul>
+
+<p>These unfortunate dynamics caused a lot of companies to give up on process automation tools, even though not all approaches involve this type of proprietary software or low-code development.</p>
+<div data-type="tip"><h6>Tip</h6>
+<p>Instead of replacing software development with low-code process automation, the focus should be on bringing software development and process automation together!</p>
+
+<p>It is important to understand that agility does not come from implementing processes without the help of developers, but by using graphical models that different stakeholders can understand and discuss.</p>
+</div>
+
+<p>As soon as you can combine process automation with “normal” software development practices, you gain development efficiency and quality, you allow normal developers to work on these jobs, and you have a whole universe of existing solutions available to help you out with all kinds of problems. Additionally, workflow vendors might prebuild support for certain integrations, which helps to reduce the effort required to build solutions.</p>
+</div></section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-type="sect3" data-pdf-bookmark="Moving past old-school BPM suites"><div class="sect3" id="idm45976004608200">
+<h3>Moving past old-school BPM suites</h3>
+
+<p>The good news is that there are now a lot of really useful, lightweight workflow engines available that integrate well with typical development practices and solve common problems.</p>
+
+<p><a data-type="indexterm" data-primary="" data-startref="hpa_ab" id="idm45976004585736"/><a data-type="indexterm" data-primary="" data-startref="pa_hi" id="idm45976004584760"/>This new generation of tools are most often open source or provided as cloud services. They target developers and support them in the challenges described earlier in this chapter. They deliver real value and are helping our industry to move forward.</p>
+</div></section>
+
+
+
+</div></section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-type="sect2" data-pdf-bookmark="The Story of Camunda"><div class="sect2" id="idm45976004647048">
+<h2>The Story of Camunda</h2>
+
+<p><a data-type="indexterm" data-primary="Camunda" id="ca_ab"/>I always like to back this whole development with the story of the company I cofounded: Camunda, a vendor that—as marketing nowadays says—reinvented process automation. As mentioned in the Preface, this book will not be a marketing vehicle for the company, but its story can help you understand the market’s development.</p>
+
+<p>I started Camunda together with my cofounder in 2008, as a company providing consultancy services around process automation. We did a lot of workshops and trainings and thus had thousands of customer contacts.</p>
+
+<p>This collided with the peak times of the old BPM and SOA ideas and tools. We were able to observe various tools in use in different companies. The common theme was that it wasn’t working out, and it was not too hard to figure out the reasons. I described them earlier in this chapter: these tools were centralized, complex, low-code, 
+<span class="keep-together">vendor-driven.</span></p>
+
+<p>So we began experimenting with the open source frameworks available at the time. They were much closer to developers, but they couldn’t cut it either, mainly because they were too basic, lacked important features, and required too much effort to build your own tooling around them.</p>
+
+<p><a data-type="indexterm" data-primary="BPMN (Business Process Model and Notation)" data-secondary="about" id="idm45976004577464"/>At the same time, we collaborated on the development of the Business Process Model and Notation (BPMN) standard, which defines a visual but also directly executable process modeling language.</p>
+
+<p>And we saw a huge opportunity: creating an open source workflow engine that was developer-friendly and fostered business–IT collaboration by using BPMN.</p>
+
+<p>We validated that idea with customers, and soon made a decision to pivot with the company: in 2013 we transformed Camunda from a consulting firm into an open source process automation vendor. Our tool was the complete opposite of the common low-code BPM suites available back then.</p>
+
+<p>Today, Camunda is growing fast and has hundreds of paying customers and countless community users. Many big organizations trust in the vision, and are even replacing tools from big vendors throughout their companies. We accelerate growth globally, as process automation tooling is strongly needed. This is fueled by digitalization and automation programs as well as the trend to move toward more fine-grained components and microservices, which then need to be coordinated. In short: we are doing very well.</p>
+
+<p>Technically, the Camunda workflow engine is engineered the way applications were engineered in 2013. It is basically a library, built in Java, that uses a relational database to store state. The engine can be embedded into your own Java application or run standalone, providing a REST API. And of course, there are a couple of additional tools to model or operate processes.</p>
+
+<p><a data-type="indexterm" data-primary="" data-startref="bd_ab" id="idm45976004572744"/><a data-type="indexterm" data-primary="" data-startref="pa_bd" id="idm45976004571768"/><a data-type="indexterm" data-primary="" data-startref="pa_v" id="idm45976004570824"/><a data-type="indexterm" data-primary="" data-startref="va_ab" id="idm45976004569880"/><a data-type="indexterm" data-primary="" data-startref="pa_to" id="idm45976004568936"/><a data-type="indexterm" data-primary="" data-startref="to_pa" id="idm45976004567992"/><a data-type="indexterm" data-primary="" data-startref="ca_ab" id="idm45976004567048"/>This architecture has served Camunda very well and can handle most of today’s performance and scalability requirements. Nonetheless, a couple of years back we developed a new workflow engine in a completely different architecture, which nowadays is best described as being cloud native. This workflow engine is developed in parallel and backs the managed service offering within Camunda Cloud. As it scales infinitely, this enables the use of a workflow engine in even more scenarios, which is a vision we’ve had in mind for a long time.</p>
+</div></section>
+
+
+
+
+
+</div></section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section data-type="sect1" data-pdf-bookmark="Conclusion"><div class="sect1" id="idm45976004582776">
+<h1>Conclusion</h1>
+
+<p>As this chapter has shown, process automation is a centerpiece of digitalization efforts. This makes workflow engines a vital building block in modern architectures. Fortunately, we have great technology available today, which is very different from old-school BPM suites. It is not only developer-friendly, but also highly performant and scalable.</p>
+
+<p>Workflow engines solve problems around state handling and allow you to model and execute graphical process models to automate the control flow of processes. This helps you to avoid Wild West integration and fosters business–IT collaboration when automating processes. You saw a first example of a process model here, directly executed on a workflow engine; this is something that will be explained further in the next chapter.</p>
+</div></section>
+
+
+
+
+
+
+
+</div></section></div></body>
+</html>
